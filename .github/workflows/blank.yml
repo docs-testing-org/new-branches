@@ -16,7 +16,7 @@ jobs:
           
       - name: Make a new branch    
         run: |
-          if [[ $(echo $date_comparison) -ne 0]]; then
+          if [[ $(echo $date_comparison) == 0]]; then
       - name: Make a new Branch on the docs site
         uses: peterjgrainger/action-create-branch@b48b0ca0e307c9b56f059b70274984ffeaa90a43
         env:
