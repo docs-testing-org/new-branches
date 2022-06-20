@@ -14,7 +14,6 @@ jobs:
           current_date=$(date -I)
           diff <(echo "$last_discussion_date") <(echo "$current_date") > /dev/null
           date_comparison=$(echo $?)
-
       - name: Make a new branch    
         run: |
           if [[ $(echo $date_comparison) -ne 0]]; then
