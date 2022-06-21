@@ -4,32 +4,28 @@ on:
     - cron:  '*/6 * * * *'
 jobs:
   get-quantic-discussions:
+    run: |
+      last_discussion_date=$(curl -s https://github.com/npushkarskii/discussions-sandbox/discussions/categories/announcements | grep -m 1 -o '<relative-time datetime=\".*\" ' | sed -e 's/.*"\(.*\)\T\(.*\)/\1/')
+      current_date=$(date -I)
+      diff <(echo "$last_discussion_date") <(echo "$current_date") > /dev/null
+      date_comparison=$(echo $?)
+    if: $(echo $date_comparison) == 0  
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Fetch Quantic discussions and compare dates
-        run: |
-          last_discussion_date=$(curl -s https://github.com/npushkarskii/discussions-sandbox/discussions/categories/announcements | grep -m 1 -o '<relative-time datetime=\".*\" ' | sed -e 's/.*"\(.*\)\T\(.*\)/\1/')
-          current_date=$(date -I)
-          diff <(echo "$last_discussion_date") <(echo "$current_date") > /dev/null
-          date_comparison=$(echo $?)
-          
-      - name: Make a new branch    
-        run: |
-          if [[ $(echo $date_comparison) == 0]]; then
+      - uses: actions/checkout@v2 
       - name: Make a new Branch on the docs site
         uses: peterjgrainger/action-create-branch@b48b0ca0e307c9b56f059b70274984ffeaa90a43
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          branch: "Coveo Quantic Release"
-      - name: Create a PR for new Atomic docs
+          branch: "Coveo Quantic Release" 
+      - name: Create a PR for new Quantic docs
         uses: gr2m/create-or-update-pull-request-action@cbfed2a38aedceab8d9fc0d9ac14890fc181d39e
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          title: "Generate Atomic Docs v${{ github.event.client_payload.atomic_version }}"
-          branch: "coveo-atomic-${{ github.event.client_payload.atomic_version }}"
-          commit-message: "generate docs v${{ github.event.client_payload.atomic_version }} via a --full-build"
+          title: "Generate Quantic Docs"
+          branch: "coveo-quantic"
+          commit-message: "generate docs via a --full-build"
           author: "DocsBot<beep-boop-beep@users.noreply.github.com>"
           assignees: npushkarskii
