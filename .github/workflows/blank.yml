@@ -1,7 +1,7 @@
 name: Generate Quantic Docs
 on:
   schedule:
-    - cron:  '*/6 * * * *'
+    - cron:  '*/5 * * * *'
 jobs:
   get-quantic-discussions:
     run: |
