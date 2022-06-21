@@ -5,21 +5,23 @@ on:
 jobs:
   get-quantic-discussions:
     runs-on: ubuntu-latest
-    run: |
-      last_discussion_date=$(curl -s https://github.com/npushkarskii/discussions-sandbox/discussions/categories/announcements | grep -m 1 -o '<relative-time datetime=\".*\" ' | sed -e 's/.*"\(.*\)\T\(.*\)/\1/')
-      current_date=$(date -I)
-      diff <(echo "$last_discussion_date") <(echo "$current_date") > /dev/null
-      date_comparison=$(echo $?)
-    if: $(echo $date_comparison) == 0  
     steps:
-      - uses: actions/checkout@v2 
+      - uses: actions/checkout@v2
+      - name: Fetch Quantic discussions and compare dates
+        run: |
+          last_discussion_date=$(curl -s https://github.com/npushkarskii/discussions-sandbox/discussions/categories/announcements | grep -m 1 -o '<relative-time datetime=\".*\" ' | sed -e 's/.*"\(.*\)\T\(.*\)/\1/')
+          current_date=$(date -I)
+          diff <(echo "$last_discussion_date") <(echo "$current_date") > /dev/null
+          date_comparison=$(echo $?)
       - name: Make a new Branch on the docs site
+        if: $(echo $date_comparison) == 0  
         uses: peterjgrainger/action-create-branch@b48b0ca0e307c9b56f059b70274984ffeaa90a43
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           branch: "Coveo Quantic Release" 
       - name: Create a PR for new Quantic docs
+        if: $(echo $date_comparison) == 0
         uses: gr2m/create-or-update-pull-request-action@cbfed2a38aedceab8d9fc0d9ac14890fc181d39e
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
