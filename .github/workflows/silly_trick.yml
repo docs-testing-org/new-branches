@@ -23,9 +23,11 @@ jobs:
         with:
           branch: "coveo-quantic-release"
       - name: Adds stub changes so that a PR can be created
+        if: ${{ steps.compare_dates.outputs.comparison == 0}} 
         run: |
           echo "This file is just a trick so that GH can create a PR" > remove_this_file    
       - name: Create a PR for new Quantic docs
+        if: ${{ steps.compare_dates.outputs.comparison == 0}} 
         uses: gr2m/create-or-update-pull-request-action@cbfed2a38aedceab8d9fc0d9ac14890fc181d39e
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
