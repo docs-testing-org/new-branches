@@ -21,7 +21,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          branch: "Coveo Quantic Release" 
+          branch: "coveo-quantic-release"
       - name: Create a PR for new Quantic docs
         if: ${{ steps.compare_dates.outputs.comparison == 0}} 
         uses: gr2m/create-or-update-pull-request-action@cbfed2a38aedceab8d9fc0d9ac14890fc181d39e
@@ -29,7 +29,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           title: "Generate Quantic Docs"
-          branch: "coveo-quantic"
+          branch: "coveo-quantic-release"
           commit-message: "generate docs via a --full-build"
           author: "DocsBot<beep-boop-beep@users.noreply.github.com>"
           assignees: npushkarskii
