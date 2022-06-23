@@ -13,7 +13,7 @@ jobs:
           set -o pipefail
           last_discussion_date=$(curl -s https://github.com/npushkarskii/discussions-sandbox/discussions/categories/announcements | grep -m 1 -o '<relative-time datetime=\".*\" ' | sed -e 's/.*"\(.*\)\T\(.*\)/\1/')
           current_date=$(date -I)
-          date_comparison=$(diff <(echo "$last_discussion_date") <(echo "$current_date"); echo $?)
+          date_comparison=$(diff <(echo "$last_discussion_date") <(echo "$current_date") 1>/dev/null; echo $?)
           echo "::set-output name=comparison::$(($date_comparison))"
       - name: Make a new Branch on the docs site
         if: ${{ steps.compare_dates.outputs.comparison == 0}} 
