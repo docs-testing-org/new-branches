@@ -14,7 +14,7 @@ jobs:
           current_date=$(date -I)
           date_comparison=$(diff <(echo "$last_discussion_date") <(echo "$current_date"); echo $?)
       - name: Make a new Branch on the docs site
-        if: echo $date_comparison == 0  
+        if: date_comparison == 0  
         uses: peterjgrainger/action-create-branch@b48b0ca0e307c9b56f059b70274984ffeaa90a43
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
