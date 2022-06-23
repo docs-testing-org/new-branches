@@ -14,7 +14,7 @@ jobs:
           last_discussion_date=$(curl -s https://github.com/npushkarskii/discussions-sandbox/discussions/categories/announcements | grep -m 1 -o '<relative-time datetime=\".*\" ' | sed -e 's/.*"\(.*\)\T\(.*\)/\1/')
           current_date=$(date -I)
           date_comparison=$(diff <(echo "$last_discussion_date") <(echo "$current_date"); echo $?)
-          echo "::set-output name=comparison::$(($date_comparison))"
+          echo "::set-output name=comparison::$((0x$date_comparison))"
       - name: Make a new Branch on the docs site
         if: ${{ steps.compare_dates.outputs.comparison == 0}} 
         uses: peterjgrainger/action-create-branch@b48b0ca0e307c9b56f059b70274984ffeaa90a43
