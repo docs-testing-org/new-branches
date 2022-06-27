@@ -10,7 +10,7 @@ jobs:
       - name: Fetch Quantic discussions and compare dates
         id: compare_dates
         run: |
-          last_discussion_date=$(curl -s https://github.com/npushkarskii/discussions-sandbox/discussions/categories/announcements | grep -m 1 -o '<relative-time datetime=\".*\" ' | sed -e 's/.*"\(.*\)\T\(.*\)/\1/')
+          last_discussion_date=$(curl -s https://github.com/docs-testing-org/discussions-sandbox/discussions/categories/announcements | grep -m 1 -o '<relative-time datetime=\".*\" ' | sed -e 's/.*"\(.*\)\T\(.*\)/\1/')
           current_date=$(date -I)
           date_comparison=$(diff <(echo "$last_discussion_date") <(echo "$current_date") &>/dev/null; echo $?)
           echo "::set-output name=comparison::$(($date_comparison))"
