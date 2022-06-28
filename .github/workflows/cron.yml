@@ -1,4 +1,4 @@
-name: Generate Quantic Docs
+name: Generate Quantic Docs CRON
 on:
   schedule:
     - cron:  '*/5 * * * *'
